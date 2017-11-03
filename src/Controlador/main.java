@@ -23,38 +23,15 @@ public class main {
     /**
      * @param args the command line arguments
      */
-    public static List<Mail> mails;
-    public static Histogram<String> histogram;
-    public static HistogramDisplay histoDisplay;
-    
     public static void main(String[] args) throws FileNotFoundException, IOException {
-           execute(args[0]);
-        }
-
-    private static void execute(String file) throws FileNotFoundException, IOException {
-        input(file);
-        process();
-        output();
-  
-    }
-
-    private static void input(String file) throws FileNotFoundException, IOException {
-        mails = new ArrayList<>();
-        mails = MailListReader.read(file);
-    }
-       
-    private static void process() {
-           histogram = MailHistogramBuilder.build(mails);
-    }
-    private static void output() {
+        List<Mail> mails = new ArrayList<Mail>();
+        mails = MailListReader.read(args[0]);
         
-         histoDisplay = new HistogramDisplay(histogram);
-         histoDisplay.execute();
-    }
-
- 
-
- 
+        Histogram<String> histogram = MailHistogramBuilder.build(mails);
+        HistogramDisplay histoDisplay = new HistogramDisplay(histogram);
+        
+        histoDisplay.execute();
+        }
         
     }
 

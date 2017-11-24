@@ -6,6 +6,8 @@ package Controlador;
 
 import Modelo.Histogram;
 import Modelo.Mail;
+import Modelo.Person;
+import Vista.DataBaseList;
 import Vista.HistogramBuilder;
 import Vista.HistogramDisplay;
 import Vista.MailHistogramBuilder;
@@ -34,25 +36,26 @@ public class main {
         
         //execute(args[0]);
         String nameFile=args[0];	
-        List<Mail> mails = MailListReader.read(nameFile);	
-        HistogramBuilder<Mail>	builder	= new HistogramBuilder<>(mails);
-        
-        Histogram<String> domains = builder.build(new Attribute<Mail, String>()	{
-            @Override
-	public	String	get(Mail item) {	
-            return item.getDomain();
-            }
-         });	
-            new HistogramDisplay(domains, "Dominio").execute();	
+        List<Person> people = DataBaseList.read();	
+        HistogramBuilder<Person> builder = new HistogramBuilder<>(people);
             
-         Histogram<Character> letters = builder.build(new Attribute<Mail, Character>() {
+         Histogram<Character> letters = builder.build(new Attribute<Person, Character>() {
 
             @Override
-            public Character get(Mail item) {
-                return item.getDomain().charAt(0);
+            public Character get(Person item) {
+                return item.getGender();
             }
         });
-         new HistogramDisplay(letters, "Letras").execute();
+         new HistogramDisplay(letters, "Sexo").execute();
+         
+         Histogram<Float> pesos = builder.build(new Attribute<Person, Float>() {
+
+            @Override
+            public Float get(Person item) {
+                return item.getWeight();
+            }
+        });
+         new HistogramDisplay(pesos, "Peso").execute();
     }
     
  
